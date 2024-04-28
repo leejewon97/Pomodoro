@@ -9,19 +9,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int totalSeconds = 25 * 60;
+  static const fullSeconds = 25 * 60;
+  int totalSeconds = fullSeconds;
   bool isRunning = false;
   late Timer timer;
 
   void onStartPressed() {
-    timer = Timer.periodic(
-        const Duration(
-          seconds: 1,
-        ), (timer) {
-      setState(() {
-        totalSeconds--;
-      });
+    setState(() {
+      totalSeconds--;
     });
+    timer = Timer.periodic(
+      const Duration(
+        seconds: 1,
+      ),
+      (timer) {
+        setState(() {
+          if (totalSeconds == 0) {
+            timer.cancel();
+            isRunning = false;
+            totalSeconds = fullSeconds;
+            return;
+          }
+          totalSeconds--;
+        });
+      },
+    );
     setState(() {
       isRunning = true;
     });
