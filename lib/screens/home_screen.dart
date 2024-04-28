@@ -12,6 +12,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const fullSeconds = 25 * 60;
   int totalSeconds = fullSeconds;
   bool isRunning = false;
+  int pomodoros = 0;
   late Timer timer;
 
   void onStartPressed() {
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             timer.cancel();
             isRunning = false;
             totalSeconds = fullSeconds;
+            pomodoros++;
             return;
           }
           totalSeconds--;
@@ -86,7 +88,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Flexible(
             flex: 1,
             child: Container(
-              color: Theme.of(context).cardColor,
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(30.0),
+                ),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -103,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Text(
-                        '0',
+                        '$pomodoros',
                         style: TextStyle(
                           color:
                               Theme.of(context).textTheme.displayLarge!.color,
