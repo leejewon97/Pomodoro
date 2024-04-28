@@ -45,24 +45,31 @@ class _HomeScreenState extends State<HomeScreen> {
             flex: 1,
             child: Container(
               color: Theme.of(context).cardColor,
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'pomodoros',
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.displayLarge!.color,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    '0',
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.displayLarge!.color,
-                      fontSize: 60.0,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'pomodoros',
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).textTheme.displayLarge!.color,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        '0',
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).textTheme.displayLarge!.color,
+                          fontSize: 60.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
