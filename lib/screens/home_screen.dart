@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onStartPressed() {
     setState(() {
+      isRunning = true;
       totalSeconds--;
     });
     timer = Timer.periodic(
@@ -36,21 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       },
     );
-    setState(() {
-      isRunning = true;
-    });
   }
 
   void onPausePressed() {
-    timer.cancel();
     setState(() {
+      timer.cancel();
       isRunning = false;
     });
   }
 
   void onStopPressed() {
-    timer.cancel();
     setState(() {
+      timer.cancel();
       isRunning = false;
       totalSeconds = fullSeconds;
     });
