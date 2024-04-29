@@ -48,7 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  String formatTime(int time) => time.toString().padLeft(2, '0');
+  String formatTime(int time) {
+    Duration duration = Duration(seconds: time);
+    String hms = duration.toString().split('.').first;
+    return '${hms.split(':')[1]} : ${hms.split(':')[2]}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               alignment: Alignment.bottomCenter,
               child: Text(
-                '${formatTime((totalSeconds / 60).floor())} : ${formatTime(totalSeconds % 60)}',
+                formatTime(totalSeconds),
                 style: TextStyle(
                   color: Theme.of(context).cardColor,
                   fontSize: 80.0,
