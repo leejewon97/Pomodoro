@@ -54,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void onEditPressed() {}
+
   String formatTime(int time) {
     Duration duration = Duration(seconds: time);
     String hms = duration.toString().split('.').first;
@@ -68,16 +70,37 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Flexible(
             flex: 1,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                formatTime(totalSeconds),
-                style: TextStyle(
-                  color: Theme.of(context).cardColor,
-                  fontSize: 80.0,
-                  fontWeight: FontWeight.w600,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: isRunning ? 0.0 : 40.0,
                 ),
-              ),
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    formatTime(totalSeconds),
+                    style: TextStyle(
+                      color: Theme.of(context).cardColor,
+                      fontSize: 80.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                isRunning
+                    ? const SizedBox.shrink()
+                    : Container(
+                        alignment: Alignment.bottomCenter,
+                        width: 40.0,
+                        child: IconButton(
+                          onPressed: onEditPressed,
+                          icon: Icon(
+                            Icons.mode_edit_outline,
+                            color: Theme.of(context).cardColor,
+                          ),
+                        ),
+                      ),
+              ],
             ),
           ),
           Flexible(
