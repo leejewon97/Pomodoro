@@ -62,7 +62,16 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void onDonePressed() {}
+  void onDonePressed() {
+    setState(() {
+      int? parsed = int.tryParse(controller.text);
+      parsed = parsed != null && parsed > 0 && parsed < 60 * 60 ? parsed : null;
+      fullSeconds = parsed ?? fullSeconds;
+      totalSeconds = parsed ?? totalSeconds;
+      isEditing = false;
+      controller.clear();
+    });
+  }
 
   String formatTime(int time) {
     Duration duration = Duration(seconds: time);
@@ -131,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Theme.of(context).cardColor,
                                 ),
                               ),
-                              hintText: 'Enter seconds',
+                              hintText: 'Enter seconds in hour',
                               hintStyle: TextStyle(
                                 color: Theme.of(context).cardColor,
                               ),
