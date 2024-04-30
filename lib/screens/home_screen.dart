@@ -9,11 +9,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const fullSeconds = 25 * 60;
-  int totalSeconds = fullSeconds;
+  int fullSeconds = 25 * 60;
+  int totalSeconds = 0;
   bool isRunning = false;
+  bool isEditing = false;
   int pomodoros = 0;
   late Timer timer;
+  final controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    totalSeconds = fullSeconds;
+  }
 
   void onStartPressed() {
     setState(() {
@@ -54,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void onEditPressed() {}
+  void onDonePressed() {}
 
   String formatTime(int time) {
     Duration duration = Duration(seconds: time);
@@ -93,7 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.bottomCenter,
                         width: 40.0,
                         child: IconButton(
-                          onPressed: onEditPressed,
+                          onPressed: () => setState(() {
+                            isEditing = true;
+                          }),
                           icon: Icon(
                             Icons.mode_edit_outline,
                             color: Theme.of(context).cardColor,
@@ -105,33 +115,67 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Flexible(
             flex: 2,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: isRunning ? onPausePressed : onStartPressed,
-                    icon: Icon(
-                      isRunning
-                          ? Icons.pause_circle_outline
-                          : Icons.play_circle_outline,
-                      size: 120.0,
-                      color: Theme.of(context).cardColor,
-                    ),
-                  ),
-                  isRunning
-                      ? IconButton(
-                          onPressed: onStopPressed,
+            child: isEditing
+                ? Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: controller,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).cardColor,
+                                ),
+                              ),
+                              hintText: 'Enter seconds',
+                              hintStyle: TextStyle(
+                                color: Theme.of(context).cardColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: onDonePressed,
                           icon: Icon(
-                            Icons.stop_circle_outlined,
+                            Icons.done_outlined,
+                            color: Theme.of(context).cardColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed:
+                              isRunning ? onPausePressed : onStartPressed,
+                          icon: Icon(
+                            isRunning
+                                ? Icons.pause_circle_outline
+                                : Icons.play_circle_outline,
                             size: 120.0,
                             color: Theme.of(context).cardColor,
                           ),
-                        )
-                      : const SizedBox.shrink(),
-                ],
-              ),
-            ),
+                        ),
+                        isRunning
+                            ? IconButton(
+                                onPressed: onStopPressed,
+                                icon: Icon(
+                                  Icons.stop_circle_outlined,
+                                  size: 120.0,
+                                  color: Theme.of(context).cardColor,
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                  ),
           ),
           Flexible(
             flex: 1,
